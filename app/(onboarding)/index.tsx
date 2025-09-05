@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import GradientButton from "@/components/ui/GradientButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width } = Dimensions.get("window");
 
@@ -49,6 +50,7 @@ export default function Onboarding() {
     if (currentIndex < slides.length - 1) {
       flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
     } else {
+      AsyncStorage.setItem("hasOnboarded", "true");
       router.replace("/(auth)/login"); // go to splash or home after onboarding
     }
   };

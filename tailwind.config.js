@@ -29,10 +29,14 @@ module.exports = {
         error: '#F75A68',
       },
       fontFamily: {
-        general: ["General"],       // maps to General-Regular
+        "general": ["General"],
+        "general-medium": ["General-Medium"],
+        "general-semibold": ["General-SemiBold"],
         "general-bold": ["General-Bold"],
         "general-italic": ["General-Italic"],
-        "general-semibold": ["General-Semibold"]
+        "general-semibolditalic": ["General-SemiBoldItalic"],
+        "general-mediumitalic": ["General-MediumItalic"],
+        "general-bolditalic": ["General-BoldItalic"],
       },
     },
   },

@@ -19,6 +19,7 @@ import SelectModal from "../../components/SelectModal";
 import { Mail, Eye, EyeOff, Lock, IdCard } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { BlurView } from "expo-blur";
 
 /** ---------- Faculty / Department Map ---------- */
 const FACULTY_MAP: Record<string, string[]> = {
@@ -507,6 +508,12 @@ export default function Register() {
               </Text>
             </Pressable>
           </View>
+
+          <BlurView
+            intensity={100}
+            tint="systemChromeMaterial"
+            className="absolute top-0 left-0 right-0 h-12"
+          />
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
     </>

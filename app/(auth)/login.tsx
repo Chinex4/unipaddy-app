@@ -18,10 +18,14 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { BlurView } from "expo-blur";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup.string().min(6, "Min 6 characters").required("Password is required"),
+  password: yup
+    .string()
+    .min(6, "Min 6 characters")
+    .required("Password is required"),
 });
 
 type LoginFormData = {
@@ -71,7 +75,8 @@ export default function LoginScreen() {
               Hi, Welcome Back 👋
             </Text>
             <Text className="text-gray-500 mt-1 text-[14px] font-general">
-              Hello, we missed you, kindly sign in to get access to your account!
+              Hello, we missed you, kindly sign in to get access to your
+              account!
             </Text>
           </View>
 
@@ -124,7 +129,11 @@ export default function LoginScreen() {
                 )}
               />
               <Pressable onPress={() => setSecureText(!secureText)}>
-                {secureText ? <EyeOff size={18} color="gray" /> : <Eye size={18} color="gray" />}
+                {secureText ? (
+                  <EyeOff size={18} color="gray" />
+                ) : (
+                  <Eye size={18} color="gray" />
+                )}
               </Pressable>
             </View>
             {errors.password && (
@@ -179,13 +188,21 @@ export default function LoginScreen() {
 
           {/* Sign Up */}
           <View className="flex-row justify-center mt-8 mb-10">
-            <Text className="text-gray-600 font-general">Don’t have an account?</Text>
+            <Text className="text-gray-600 font-general">
+              Don’t have an account?
+            </Text>
             <Pressable onPress={() => router.push("/(auth)/register")}>
               <Text className="text-primary-base font-general-semibold ml-1">
                 Create One
               </Text>
             </Pressable>
           </View>
+
+          <BlurView
+            intensity={100}
+            tint="systemChromeMaterial"
+            className="absolute top-0 left-0 right-0 h-12"
+          />
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
     </>

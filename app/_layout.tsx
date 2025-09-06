@@ -1,9 +1,8 @@
-// app/_layout.tsx
-import { Stack } from "expo-router";
-import { useEffect } from "react";
 import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,25 +19,21 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
+    if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
 
   if (!fontsLoaded) return null;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      {/* Entry point */}
       <StatusBar style="dark" />
       <Stack.Screen name="splash" />
-      <Stack.Screen name="(onboarding)/index" />
-      <Stack.Screen name="(auth)/login" />
-      <Stack.Screen name="(auth)/register" />
-      <Stack.Screen name="(auth)/forgot-password" />
-      <Stack.Screen name="(auth)/otp-verification" />
-      <Stack.Screen name="(auth)/create-new-password" />
-      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(onboarding)" />
+      <Stack.Screen name="(auth)" />
+      <Stack.Screen name="(tabs)" />            
+      <Stack.Screen name="(receipt)" />         
+      <Stack.Screen name="(notifications)" />
+      <Stack.Screen name="updates/[id]" />      
     </Stack>
   );
 }

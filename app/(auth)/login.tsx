@@ -1,24 +1,23 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  Pressable,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import GradientButton from "../../components/ui/GradientButton";
-import BackHeader from "../../components/BackHeader";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react-native";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import {
+  Image,
+  Keyboard,
+  Pressable,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { BlurView } from "expo-blur";
+import * as yup from "yup";
+import BackHeader from "../../components/BackHeader";
+import GradientButton from "../../components/ui/GradientButton";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -51,7 +50,7 @@ export default function LoginScreen() {
       if (rememberMe) {
         await AsyncStorage.setItem("user", JSON.stringify(data));
       }
-      router.replace("/"); // Redirect to home
+      router.replace("/(tabs)/index"); // Redirect to home
     } catch (e) {
       console.log(e);
     }
@@ -198,11 +197,6 @@ export default function LoginScreen() {
             </Pressable>
           </View>
 
-          <BlurView
-            intensity={100}
-            tint="systemChromeMaterial"
-            className="absolute top-0 left-0 right-0 h-12"
-          />
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
     </>

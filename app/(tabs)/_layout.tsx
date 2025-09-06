@@ -1,43 +1,113 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import React from "react";
+import { Tabs } from "expo-router";
+import {
+  Home as HomeIcon,
+  Receipt,
+  CalendarCheck2,
+  GraduationCap,
+  Megaphone,
+  UserRound,
+} from "lucide-react-native";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const PRIMARY = "#2563eb"; // text-primary-base
+const INACTIVE = "#9CA3AF"; // gray-400
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+function TabIcon({
+  color,
+  focused,
+  size,
+  type,
+}: {
+  color: string;
+  focused: boolean;
+  size: number;
+  type: "home" | "dues" | "attendance" | "cgpa" | "updates" | "profile";
+}) {
+  const Icon =
+    type === "home" ? HomeIcon :
+    type === "dues" ? Receipt :
+    type === "attendance" ? CalendarCheck2 :
+    type === "cgpa" ? GraduationCap :
+    type === "updates" ? Megaphone :
+    UserRound;
 
+  return <Icon size={size} color={focused ? PRIMARY : color} />;
+}
+
+export default function TabsLayout() {
   return (
     <Tabs
+      initialRouteName="index" // 👈 ensures Home (index.tsx) is the default
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+        tabBarActiveTintColor: PRIMARY,
+        tabBarInactiveTintColor: INACTIVE,
+        tabBarStyle: {
+          height: 64,
+          borderTopWidth: 0.5,
+          borderTopColor: "#E5E7EB",
+          paddingBottom: 8,
+          paddingTop: 8,
+          backgroundColor: "white",
+        },
+        tabBarLabelStyle: {
+          fontFamily: "GeneralSans-Regular",
+          fontSize: 12,
+        },
+      }}
+    >
+      {/* HOME: app/(tabs)/index.tsx */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          tabBarIcon: (p) => <TabIcon {...p} type="home" />,
         }}
       />
+
+      {/* DUES: app/(tabs)/dues/index.tsx */}
       <Tabs.Screen
-        name="explore"
+        name="dues/index"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Dues",
+          tabBarIcon: (p) => <TabIcon {...p} type="dues" />,
+        }}
+      />
+
+      {/* ATTENDANCE: app/(tabs)/attendance/index.tsx */}
+      <Tabs.Screen
+        name="attendance/index"
+        options={{
+          title: "Attendance",
+          tabBarIcon: (p) => <TabIcon {...p} type="attendance" />,
+        }}
+      />
+
+      {/* CGPA: app/(tabs)/cgpa/index.tsx */}
+      <Tabs.Screen
+        name="cgpa/index"
+        options={{
+          title: "CGPA",
+          tabBarIcon: (p) => <TabIcon {...p} type="cgpa" />,
+        }}
+      />
+
+      {/* UPDATES: app/(tabs)/updates/index.tsx */}
+      <Tabs.Screen
+        name="updates/index"
+        options={{
+          title: "Updates",
+          tabBarIcon: (p) => <TabIcon {...p} type="updates" />,
+        }}
+      />
+
+      {/* OPTIONAL PROFILE TAB: app/(tabs)/profile/index.tsx */}
+      {/* You can remove this if you want only 5 tabs */}
+      <Tabs.Screen
+        name="profile/index"
+        options={{
+          title: "Profile",
+          tabBarIcon: (p) => <TabIcon {...p} type="profile" />,
         }}
       />
     </Tabs>

@@ -509,11 +509,6 @@ export default function Register() {
             </Pressable>
           </View>
 
-          <BlurView
-            intensity={100}
-            tint="systemChromeMaterial"
-            className="absolute top-0 left-0 right-0 h-12"
-          />
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
     </>

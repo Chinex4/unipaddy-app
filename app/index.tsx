@@ -9,13 +9,13 @@ export default function Splash() {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      const onboarded = await AsyncStorage.getItem("hasOnboarded");
-      // const onboarded = true;
+      // const onboarded = await AsyncStorage.getItem("hasOnboarded");
+      const onboarded = true;
       const token = await AsyncStorage.getItem("user");
       // const token = true;
 
       if (!onboarded) {
-        router.replace("/(onboarding)");
+        router.replace("/onboarding"); 
       } else if (!token) {
         router.replace("/(auth)/login");
       } else {

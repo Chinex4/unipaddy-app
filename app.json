@@ -17,7 +17,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/unipaddy/logo2.png",
-        "backgroundColor": "#265BFF"
+        "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.heischinex.unipaddy"
@@ -35,7 +35,7 @@
           "image": "./assets/images/unipaddy/logo2.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#265BFF"
+          "backgroundColor": "#ffffff"
         }
       ],
       "expo-font",

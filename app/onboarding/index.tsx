@@ -109,7 +109,7 @@ export default function Onboarding() {
           >
             <Image
               source={item.image}
-              className="size-[350px] mb-8"
+              style={{ width: 350, height: 350 }}
               resizeMode="contain"
             />
             <Text className="text-[30px] text-center mb-3 font-general-bold">

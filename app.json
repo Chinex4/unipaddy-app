@@ -19,7 +19,8 @@
         "foregroundImage": "./assets/images/unipaddy/logo2.png",
         "backgroundColor": "#265BFF"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.heischinex.unipaddy"
     },
     "web": {
       "bundler": "metro",
@@ -38,10 +39,18 @@
         }
       ],
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7772ff64-4fba-4a89-bb60-9933047d41b6"
+      }
+    },
+    "owner": "heischinex"
   }
 }

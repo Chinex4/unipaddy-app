@@ -55,8 +55,8 @@ export default function BackHeader({
         {/* Logo */}
         <View className="absolute right-4">
           <Image
-            source={require("../assets/images/unipaddy/logo2.png")}
-            className="size-10"
+            source={require("../assets/images/unipaddy/logo3.png")}
+            className="size-12"
             resizeMode="contain"
           />
         </View>

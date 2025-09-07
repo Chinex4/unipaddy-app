@@ -1,11 +1,20 @@
 // app/dues/payment-method.tsx
 import React, { useMemo, useState, useCallback } from "react";
 import { View, Text, Pressable, Alert, Image } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Constants from "expo-constants";
-import { ChevronRight, CreditCard, Send, Hash, ArrowLeft } from "lucide-react-native";
+import {
+  ChevronRight,
+  CreditCard,
+  Send,
+  Hash,
+  ArrowLeft,
+} from "lucide-react-native";
 import { PaystackProvider, usePaystack } from "react-native-paystack-webview";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -78,9 +87,7 @@ export default function PaymentMethod() {
   const charge = 200;
   const total = baseAmount + charge;
 
-  const paystackKey =
-    (Constants.expoConfig?.extra as any)?.paystackPublicKey ||
-    process.env.EXPO_PUBLIC_PAYSTACK_PK;
+  const paystackKey = (process.env.EXPO_PUBLIC_PAYSTACK_PK as string) || "";
 
   // User-selected channel (controls Provider.defaultChannels)
   const [channels, setChannels] = useState<Channels | null>(null);
@@ -142,7 +149,6 @@ export default function PaymentMethod() {
             >
               <ArrowLeft size={20} color="#111827" />
             </Pressable>
-            
           </View>
 
           <View className="px-5 items-center justify-center mt-4">
@@ -239,7 +245,7 @@ export default function PaymentMethod() {
             publicKey={paystackKey}
             defaultChannels={channels}
             currency="NGN"
-            
+
             // debug // helpful logs in dev
           >
             {/* add extra space above the button */}

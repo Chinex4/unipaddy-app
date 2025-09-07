@@ -39,7 +39,7 @@ export type Activity = {
 export const quickActions: QuickAction[] = [
   { key: "dues", label: "Dues", icon: Receipt, route: "/dues" },
   { key: "books", label: "Books", icon: BookOpen, route: "/books" },
-  { key: "cgpa", label: "CGPA", icon: UserRound, route: "/coming-soon" },
+  { key: "cgpa", label: "CGPA", icon: UserRound, route: "/cgpa" },
   {
     key: "attendance",
     label: "Attendance",

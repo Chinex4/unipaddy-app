@@ -2,18 +2,33 @@
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
     "strict": true,
+    "noEmit": true,
     "jsx": "react-jsx",
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "types": [
+      "nativewind/types",
+      "react",
+      "react-native",
+      "expo-router"
+    ]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "tailwind.config.js",
-    "nativewind-env.d.ts"
+    "nativewind-env.d.ts",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ],
+   "exclude": [
+    "node_modules",
+    "metro.config.js",
+    "eas.json"
   ]
 }

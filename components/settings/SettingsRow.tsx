@@ -20,7 +20,7 @@ export default function SettingsRow({
   return (
     <Pressable
       onPress={onPress}
-      className={`flex-row items-center justify-between px-4 py-4 bg-white/60 rounded-2xl ${danger ? "border border-red-200" : ""}`}
+      className={`flex-row items-center justify-between px-4 py-4 bg-white rounded-2xl ${danger ? "border border-red-200" : ""}`}
       style={{
         shadowColor: "#000",
         shadowOpacity: 0.04,
@@ -28,7 +28,7 @@ export default function SettingsRow({
         elevation: 1,
       }}
     >
-      <View className="flex-row items-center space-x-3">
+      <View className="flex-row items-center gap-3">
         <View className="h-9 w-9 rounded-full bg-gray-100 items-center justify-center">
           {icon}
         </View>

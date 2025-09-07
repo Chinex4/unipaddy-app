@@ -38,7 +38,7 @@ export default function SettingsIndex() {
       <ScrollView className="px-4 -mt-6">
         <Text className="text-gray-700 font-general mb-3">General</Text>
 
-        <View className="space-y-3">
+        <View className="gap-3">
           <SettingsRow
             icon={<CircleUserRound size={18} color="#111827" />}
             title="Account Information"

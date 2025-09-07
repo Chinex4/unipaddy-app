@@ -8,6 +8,7 @@ import {
   UserRound,
   ClipboardList,
   LucideIcon,
+  Calculator
 } from "lucide-react-native";
 
 /** TYPES */
@@ -39,7 +40,7 @@ export type Activity = {
 export const quickActions: QuickAction[] = [
   { key: "dues", label: "Dues", icon: Receipt, route: "/dues" },
   { key: "books", label: "Books", icon: BookOpen, route: "/books" },
-  { key: "cgpa", label: "CGPA", icon: UserRound, route: "/cgpa" },
+  { key: "cgpa", label: "CGPA", icon: Calculator, route: "/cgpa" },
   {
     key: "attendance",
     label: "Attendance",

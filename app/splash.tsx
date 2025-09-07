@@ -19,7 +19,7 @@ export default function Splash() {
       } else if (!token) {
         router.replace("/(auth)/login");
       } else {
-        router.replace("/(tabs)/index"); // Redirect to home
+        router.replace("/home"); // Redirect to home
       }
     }, 2000); // 2s
 

@@ -50,7 +50,7 @@ export default function LoginScreen() {
       if (rememberMe) {
         await AsyncStorage.setItem("user", JSON.stringify(data));
       }
-      router.replace("/(tabs)/index"); // Redirect to home
+      router.replace("/home"); // Redirect to home
     } catch (e) {
       console.log(e);
     }

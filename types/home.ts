@@ -37,20 +37,20 @@ export type Activity = {
 
 /** MOCK DATA */
 export const quickActions: QuickAction[] = [
-  { key: "dues", label: "Dues", icon: Receipt, route: "/(dues)" },
-  { key: "books", label: "Books", icon: BookOpen, route: "/(books)" },
-  { key: "cgpa", label: "CGPA", icon: UserRound, route: "/(cgpa)" },
+  { key: "dues", label: "Dues", icon: Receipt, route: "/dues" },
+  { key: "books", label: "Books", icon: BookOpen, route: "/books" },
+  { key: "cgpa", label: "CGPA", icon: UserRound, route: "/coming-soon" },
   {
     key: "attendance",
     label: "Attendance",
     icon: Settings2,
-    route: "/(attendance)",
+    route: "/coming-soon",
   },
 
-  { key: "message", label: "Dues", icon: ClipboardList, route: "/dues" },
-  { key: "spark", label: "Dues", icon: Sparkles, route: "/explore" },
-  { key: "grade", label: "Dues", icon: GraduationCap, route: "/cgpa" },
-  { key: "more", label: "Dues", icon: CalendarCheck2, route: "/attendance" },
+  { key: "message", label: "Dues", icon: ClipboardList, route: "/coming-soon" },
+  { key: "spark", label: "Dues", icon: Sparkles, route: "/coming-soon" },
+  { key: "grade", label: "Dues", icon: GraduationCap, route: "/coming-soon" },
+  { key: "more", label: "Dues", icon: CalendarCheck2, route: "/coming-soon" },
 ];
 
 export const campusUpdates: CampusUpdate[] = [

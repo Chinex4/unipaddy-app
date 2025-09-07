@@ -24,8 +24,8 @@ export default function Home() {
       <HomeHeader
         greeting="Good Morning! 👋"
         name="Confidence Izu"
-        onBellPress={() => router.push("/(notifications)")}
-        onAvatarPress={() => router.push("/(profile)")}
+        onBellPress={() => router.push("/notifications")}
+        onAvatarPress={() => router.push("/settings")}
       />
 
       {/* Quick Actions */}
@@ -42,7 +42,7 @@ export default function Home() {
       <View className="mt-6">
         <SectionHeader
           title="Campus Updates"
-          onPress={() => router.push("/(updates)")}
+          onPress={() => router.push("/updates")}
           actionText="View All"
           className="px-5"
         />
@@ -71,7 +71,7 @@ export default function Home() {
       <View className="mt-6">
         <SectionHeader
           title="Recent Activities"
-          onPress={() => router.push("/(activities)/activities")}
+          onPress={() => router.push("/activities")}
           actionText="View All"
           className="px-5"
         />
@@ -83,7 +83,7 @@ export default function Home() {
               showDivider={idx !== recentActivities.length - 1}
               onPress={() => {
                 if (a.title.toLowerCase().includes("dues")) {
-                  router.push(`/(receipt)/${a.id}`);
+                  router.push(`/receipt/${a.id}`);
                 }
               }}
             />

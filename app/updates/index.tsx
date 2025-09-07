@@ -22,12 +22,12 @@ export default function UpdatesIndexScreen() {
         <View className="flex-row items-center gap-3">
           <Pressable
             onPress={() => router.back()}
-            className="h-10 w-10 rounded-full bg-gray-100 items-center justify-center"
+            className="h-10 w-10 rounded-full items-center justify-center"
             hitSlop={8}
           >
             <ArrowLeft size={20} color="#111827" />
           </Pressable>
-          <Text className="font-general text-2xl text-gray-900">Campus Updates</Text>
+          <Text className="font-general-semibold text-2xl text-gray-900">Campus Updates</Text>
         </View>
       </View>
 

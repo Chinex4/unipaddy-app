@@ -21,7 +21,7 @@ export default function UpdateListCard({ update, onPress }: Props) {
     >
       <Image source={{ uri: update.image }} className="w-full h-40" />
       <View className="p-4">
-        <Text className="font-general text-[17px] text-gray-900" numberOfLines={2}>
+        <Text className="font-general-medium text-[17px] text-gray-900" numberOfLines={2}>
           {update.title}
         </Text>
         <Text className="font-general text-sm text-gray-600 mt-1" numberOfLines={2}>

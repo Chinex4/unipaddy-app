@@ -1,3 +1,4 @@
+// app/receipt/[receipt].tsx
 import * as FileSystem from "expo-file-system";
 import { LinearGradient } from "expo-linear-gradient";
 import * as MediaLibrary from "expo-media-library";
@@ -14,7 +15,27 @@ const formatNaira = (n: number) =>
   `₦${n.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
 
 export default function ReceiptScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  // 👇 now also accepts dynamic params from payment screen
+  const {
+    receipt,               // Paystack reference (used as the dynamic route segment)
+    title,                 // dues title (used as purpose)
+    amount,
+    charge,
+    total,
+    method,                // "Card" | "Transfer" | "USSD"
+    time,                  // ISO or formatted time
+    sender,                // optional
+  } = useLocalSearchParams<{
+    receipt?: string;
+    title?: string;
+    amount?: string;
+    charge?: string;
+    total?: string;
+    method?: string;
+    time?: string;
+    sender?: string;
+  }>();
+
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -24,8 +45,8 @@ export default function ReceiptScreen() {
   // 🔒 Capture ONLY this node (the receipt card)
   const cardShotRef = useRef<View>(null);
 
-  // TODO: fetch by id
-  const payload = {
+  // --- ORIGINAL MOCK (kept as fallback) ---
+  const fallback = {
     total: 1400,
     amount: 1200,
     fee: 200,
@@ -34,6 +55,32 @@ export default function ReceiptScreen() {
     method: "Transfer",
     sender: "Travis Scott",
     purpose: "SUG Dues",
+  };
+
+  // --- Params → payload (use fallback if any field is missing) ---
+  const payloadFromParams = {
+    total: Number(total ?? NaN),
+    amount: Number(amount ?? NaN),
+    fee: Number(charge ?? NaN),
+    ref: receipt || fallback.ref,
+    time:
+      time ||
+      new Date().toLocaleString(), // you can send a formatted time from payment screen
+    method: method || fallback.method,
+    sender: sender || "You",
+    purpose: title || fallback.purpose,
+  };
+
+  // merge with fallback safely
+  const payload = {
+    total: isFinite(payloadFromParams.total) ? payloadFromParams.total : fallback.total,
+    amount: isFinite(payloadFromParams.amount) ? payloadFromParams.amount : fallback.amount,
+    fee: isFinite(payloadFromParams.fee) ? payloadFromParams.fee : fallback.fee,
+    ref: payloadFromParams.ref,
+    time: payloadFromParams.time,
+    method: payloadFromParams.method,
+    sender: payloadFromParams.sender,
+    purpose: payloadFromParams.purpose,
   };
 
   const captureToPng = async () => {
@@ -94,7 +141,7 @@ export default function ReceiptScreen() {
                 resizeMode="cover"
               />
             </View>
-      
+
             <View className="px-5 flex-row items-center justify-between">
               <Pressable onPress={() => router.back()} className="h-10 w-10 rounded-full bg-white/70 items-center justify-center">
                 <ArrowLeft size={20} color="#111827" />
@@ -105,7 +152,7 @@ export default function ReceiptScreen() {
             </View>
           </View>
         </LinearGradient>
-      
+
         {/* Content */}
         <View className="-mt-16 px-5 pb-6">
           <ViewShot ref={cardShotRef} options={{ format: "png", quality: 1 }}>
@@ -119,10 +166,10 @@ export default function ReceiptScreen() {
                   <Check size={28} color="white" />
                 </View>
               </View>
-      
+
               <Text className="text-center font-general text-[22px] text-gray-900 font-semibold">Payment Success!</Text>
               <Text className="text-center font-general text-sm text-gray-400">Your payment was successful!</Text>
-      
+
               {/* Total */}
               <View className="mt-6 border-t border-gray-100 pt-6">
                 <Text className="text-center font-general text-sm text-gray-500">Total Payment</Text>
@@ -130,7 +177,7 @@ export default function ReceiptScreen() {
                   {formatNaira(payload.total)}
                 </Text>
               </View>
-      
+
               {/* Fields */}
               <View className="mt-6">
                 <Line label="Ref Number" value={payload.ref} />
@@ -143,7 +190,7 @@ export default function ReceiptScreen() {
                 <Line label="Charges" value={formatNaira(payload.fee)} />
                 <Line label="Total" value={formatNaira(payload.total)} />
               </View>
-      
+
               {/* Ticket scallops */}
               <View className="mt-8 flex-row justify-between px-1">
                 {Array.from({ length: 9 }).map((_, i) => (
@@ -152,7 +199,7 @@ export default function ReceiptScreen() {
               </View>
             </View>
           </ViewShot>
-      
+
           <View className="">
             <GradientButton title={saving ? "Saving..." : "Download Receipt"} onPress={handleDownload} />
           </View>

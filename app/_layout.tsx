@@ -1,3 +1,5 @@
+// app/_layout.tsx
+import { ThemeProvider } from "@/lib/theme";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -25,15 +27,10 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <ThemeProvider>
+      {/* Put StatusBar OUTSIDE the <Stack> */}
       <StatusBar style="dark" />
-      <Stack.Screen name="splash" />
-      <Stack.Screen name="(onboarding)" />
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />            
-      <Stack.Screen name="(receipt)" />         
-      <Stack.Screen name="(notifications)" />
-      <Stack.Screen name="updates/[id]" />      
-    </Stack>
+      <Stack screenOptions={{ headerShown: false }} />
+    </ThemeProvider>
   );
 }

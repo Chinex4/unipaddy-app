@@ -62,7 +62,7 @@ export default function UpdateDetailScreen() {
             >
               <ArrowLeft size={20} color="#111827" />
             </Pressable>
-            <Text className="font-general text-2xl text-gray-900" numberOfLines={1}>
+            <Text className="font-general-semibold text-2xl text-gray-900" numberOfLines={1}>
               Update
             </Text>
           </View>
@@ -87,7 +87,7 @@ export default function UpdateDetailScreen() {
 
         <View className="px-5 mt-4">
           {/* Title */}
-          <Text className="font-general text-[22px] text-gray-900">
+          <Text className="font-general-medium text-[22px] text-gray-900">
             {update.title}
           </Text>
 

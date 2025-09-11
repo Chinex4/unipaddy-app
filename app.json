@@ -12,7 +12,8 @@
       "assets/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.heischinex.unipaddy"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,6 +22,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.heischinex.unipaddy"
+      
     },
     "web": {
       "bundler": "metro",
@@ -40,13 +42,21 @@
       ],
       "expo-font",
       "expo-secure-store",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.226810012710-3bh036qq19t61udhpn76318fnbs3qec3" 
+        }
+      ]
+    
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "router": {},
+      "googleWebClientId": "226810012710-q6t6l3gadp12mo295dff044emlvudvsd.apps.googleusercontent.com",
       "eas": {
         "projectId": "7772ff64-4fba-4a89-bb60-9933047d41b6"
       }

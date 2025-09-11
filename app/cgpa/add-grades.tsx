@@ -129,6 +129,7 @@ export default function AddGrades() {
       </View>
 
       <FlatList
+      className="max-h-[530px]"
         contentContainerStyle={{
           paddingHorizontal: 20,
           paddingBottom: 140,

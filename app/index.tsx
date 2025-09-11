@@ -1,6 +1,7 @@
 // app/splash.tsx
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -9,13 +10,13 @@ export default function Splash() {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      // const onboarded = await AsyncStorage.getItem("hasOnboarded");
-      const onboarded = true;
+      const onboarded = await AsyncStorage.getItem("hasOnboarded");
+      // const onboarded = true;
       const token = await AsyncStorage.getItem("user");
       // const token = true;
 
       if (!onboarded) {
-        router.replace("/onboarding"); 
+        router.replace("/onboarding");
       } else if (!token) {
         router.replace("/(auth)/login");
       } else {
@@ -28,6 +29,7 @@ export default function Splash() {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <Image
         source={require("../assets/images/unipaddy/logo.png")}
         style={styles.logo}

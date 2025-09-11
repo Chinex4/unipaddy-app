@@ -20,6 +20,7 @@ import { Mail, Eye, EyeOff, Lock, IdCard } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { BlurView } from "expo-blur";
+import GoogleButton from "@/components/auth/GoogleButton";
 
 /** ---------- Faculty / Department Map ---------- */
 const FACULTY_MAP: Record<string, string[]> = {
@@ -305,8 +306,9 @@ export default function Register() {
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   placeholder="Enter your full name"
-                  className="border border-gray-300 rounded-lg px-3 py-3 font-general-medium"
+                  className="border border-gray-300 rounded-lg px-3 py-3 font-general-medium text-black"
                   value={value}
+                  placeholderTextColor="#9CA3AF"
                   onChangeText={onChange}
                 />
               )}
@@ -329,10 +331,11 @@ export default function Register() {
                 render={({ field: { onChange, value } }) => (
                   <TextInput
                     placeholder="Enter your email"
-                    className="flex-1 px-2 py-3 font-general-medium"
+                    className="flex-1 px-2 py-3 font-general-medium text-black"
                     keyboardType="email-address"
                     autoCapitalize="none"
                     value={value}
+                    placeholderTextColor="#9CA3AF"
                     onChangeText={onChange}
                   />
                 )}
@@ -356,9 +359,10 @@ export default function Register() {
                 render={({ field: { onChange, value } }) => (
                   <TextInput
                     placeholder="e.g. FOS/23/24/123456"
-                    className="flex-1 px-2 py-3 font-general-medium"
+                    className="flex-1 px-2 py-3 font-general-medium text-black"
                     autoCapitalize="characters"
                     value={value}
+                    placeholderTextColor="#9CA3AF"
                     onChangeText={onChange}
                   />
                 )}
@@ -409,8 +413,9 @@ export default function Register() {
                 render={({ field: { onChange, value } }) => (
                   <TextInput
                     placeholder="Enter your password"
-                    className="flex-1 px-2 py-3 font-general-medium"
+                    className="flex-1 px-2 py-3 font-general-medium text-black"
                     value={value}
+                    placeholderTextColor="#9CA3AF"
                     onChangeText={onChange}
                     secureTextEntry={!showPwd}
                   />
@@ -451,8 +456,9 @@ export default function Register() {
                 render={({ field: { onChange, value } }) => (
                   <TextInput
                     placeholder="Confirm your password"
-                    className="flex-1 px-2 py-3 font-general-medium"
+                    className="flex-1 px-2 py-3 font-general-medium text-black"
                     value={value}
+                    placeholderTextColor="#9CA3AF"
                     onChangeText={onChange}
                     secureTextEntry={!showConfirm}
                   />
@@ -485,16 +491,7 @@ export default function Register() {
             <Text className="text-center text-gray-500 mb-3 font-general">
               Or Sign Up Using
             </Text>
-            <Pressable
-              className="flex-row items-center justify-center border border-gray-300 rounded-lg py-3"
-              onPress={() => {}}
-            >
-              <Image
-                source={require("../../assets/images/unipaddy/google.png")}
-                className="w-5 h-5 mr-2"
-              />
-              <Text className="text-black font-general-medium">Google</Text>
-            </Pressable>
+            <GoogleButton onToken={(t) => console.log(t)} />
           </View>
 
           {/* Already have account */}
@@ -508,7 +505,6 @@ export default function Register() {
               </Text>
             </Pressable>
           </View>
-
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
     </>

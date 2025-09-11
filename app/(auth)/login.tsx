@@ -18,6 +18,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import * as yup from "yup";
 import BackHeader from "../../components/BackHeader";
 import GradientButton from "../../components/ui/GradientButton";
+import GoogleButton from "@/components/auth/GoogleButton";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -93,7 +94,8 @@ export default function LoginScreen() {
                 render={({ field: { onChange, value } }) => (
                   <TextInput
                     placeholder="Enter your email"
-                    className="flex-1 px-2 py-3 font-general-medium"
+                    placeholderTextColor="#9CA3AF"
+                    className="flex-1 px-2 py-3 font-general-medium text-black"
                     onChangeText={onChange}
                     value={value}
                     keyboardType="email-address"
@@ -120,7 +122,8 @@ export default function LoginScreen() {
                 render={({ field: { onChange, value } }) => (
                   <TextInput
                     placeholder="Enter your password"
-                    className="flex-1 px-2 py-3 font-general-medium"
+                    placeholderTextColor="#9CA3AF"
+                    className="flex-1 px-2 py-3 font-general-medium text-black"
                     onChangeText={onChange}
                     value={value}
                     secureTextEntry={secureText}
@@ -173,16 +176,7 @@ export default function LoginScreen() {
             <Text className="text-center text-gray-500 mb-3 font-general">
               Or Sign In Using
             </Text>
-            <Pressable
-              className="flex-row items-center justify-center border border-gray-300 rounded-lg py-3"
-              onPress={() => console.log("Google login")}
-            >
-              <Image
-                source={require("../../assets/images/unipaddy/google.png")}
-                className="w-5 h-5 mr-2"
-              />
-              <Text className="text-black font-general-medium">Google</Text>
-            </Pressable>
+            <GoogleButton onToken={(t) => console.log(t)} />
           </View>
 
           {/* Sign Up */}
@@ -196,7 +190,6 @@ export default function LoginScreen() {
               </Text>
             </Pressable>
           </View>
-
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
     </>

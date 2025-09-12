@@ -22,7 +22,7 @@ export default function SelectModal({
   const [open, setOpen] = useState(false);
 
   return (
-    <View className="my-4">
+    <View className="mt-2 mb-2">
       <Text className="text-sm text-gray-700 mb-1 font-general-medium">{label}</Text>
 
       <Pressable

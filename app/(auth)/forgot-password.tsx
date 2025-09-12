@@ -16,30 +16,34 @@ import { Mail } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useAppDispatch } from "@/store/hooks";
+import { passwordForgot } from "@/redux/auth/auth.thunks";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
 });
 
-type ForgotPasswordFormData = {
-  email: string;
-};
+type ForgotPasswordFormData = { email: string };
 
 export default function ForgotPassword() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordFormData>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: ForgotPasswordFormData) => {
-    console.log("Reset link sent to:", data.email);
-    router.push(`/(auth)/otp-verification?email=${encodeURIComponent(data.email)}&type=forgotPassword`);
-
+  const onSubmit = async (data: ForgotPasswordFormData) => {
+    await dispatch(passwordForgot(data.email)).unwrap();
+    router.push(
+      `/(auth)/otp-verification?email=${encodeURIComponent(
+        data.email
+      )}&type=forgotPassword`
+    );
   };
 
   return (
@@ -56,10 +60,12 @@ export default function ForgotPassword() {
 
           {/* Title */}
           <View className="px-5 mt-6">
-            <Text className="text-3xl text-black font-general-bold">Forgot Password?</Text>
+            <Text className="text-3xl text-black font-general-bold">
+              Forgot Password?
+            </Text>
             <Text className="text-gray-500 mt-2 text-[14px] font-general">
               Enter the email address you used during registration. We’ll send
-              you a link to reset your password.
+              you a 4-digit code to reset your password.
             </Text>
           </View>
 
@@ -92,13 +98,21 @@ export default function ForgotPassword() {
             )}
 
             {/* Submit */}
-            <GradientButton title="Send Reset Link" onPress={handleSubmit(onSubmit)} />
+            <GradientButton
+              title={isSubmitting ? "Please wait..." : "Send Reset Code"}
+              onPress={handleSubmit(onSubmit)}
+              disabled={isSubmitting}
+            />
 
             {/* Back to Login */}
             <View className="flex-row justify-center mt-6">
-              <Text className="text-gray-600 font-general">Remembered your password?</Text>
+              <Text className="text-gray-600 font-general">
+                Remembered your password?
+              </Text>
               <Pressable onPress={() => router.push("/(auth)/login")}>
-                <Text className="text-primary-base font-general-semibold ml-1">Login</Text>
+                <Text className="text-primary-base font-general-semibold ml-1">
+                  Login
+                </Text>
               </Pressable>
             </View>
           </View>

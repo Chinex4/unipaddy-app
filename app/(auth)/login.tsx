@@ -1,12 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react-native";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-  Image,
   Keyboard,
   Pressable,
   Text,
@@ -19,6 +17,9 @@ import * as yup from "yup";
 import BackHeader from "../../components/BackHeader";
 import GradientButton from "../../components/ui/GradientButton";
 import GoogleButton from "@/components/auth/GoogleButton";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { loginStart } from "@/redux/auth/auth.thunks";
+import { googleSignIn } from "@/redux/auth/auth.thunks";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -27,33 +28,57 @@ const schema = yup.object().shape({
     .min(6, "Min 6 characters")
     .required("Password is required"),
 });
-
-type LoginFormData = {
-  email: string;
-  password: string;
-};
+type LoginFormData = { email: string; password: string };
 
 export default function LoginScreen() {
   const [secureText, setSecureText] = useState(true);
   const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
 
+  const dispatch = useAppDispatch();
+  const phase = useAppSelector((s) => s.auth.phase);
+  const lastEmail = useAppSelector((s) => s.auth.lastEmailForOtp);
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
-    resolver: yupResolver(schema),
-  });
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({ resolver: yupResolver(schema) });
 
   const onSubmit = async (data: LoginFormData) => {
+    const result = await dispatch(
+      loginStart({ email: data.email, password: data.password })
+    ).unwrap();
+
+    if (result.requiresOtp) {
+      router.push(
+        `/(auth)/otp-verification?email=${encodeURIComponent(data.email)}&type=login`
+      );
+    } else {
+      router.replace("/home");
+    }
+  };
+
+  // Optional: state-driven redirect (works for Google as well)
+  useEffect(() => {
+    if (phase === "awaiting_otp" && lastEmail) {
+      router.push(
+        `/(auth)/otp-verification?email=${encodeURIComponent(lastEmail)}&type=login`
+      );
+    }
+  }, [phase, lastEmail]);
+
+  const handleGoogle = async (idToken: string) => {
     try {
-      if (rememberMe) {
-        await AsyncStorage.setItem("user", JSON.stringify(data));
+      const { requiresOtp } = await dispatch(googleSignIn(idToken)).unwrap();
+      if (requiresOtp) {
+        // (won't happen in your current backend config, but safe)
+        router.push(`/(auth)/otp-verification?type=login`);
+      } else {
+        router.replace("/home");
       }
-      router.replace("/home"); // Redirect to home
-    } catch (e) {
-      console.log(e);
+    } catch {
+      // errors are toasted by interceptors/showPromise
     }
   };
 
@@ -151,9 +176,7 @@ export default function LoginScreen() {
                 className="flex-row items-center"
               >
                 <View
-                  className={`w-5 h-5 border rounded mr-2 ${
-                    rememberMe ? "bg-primary-base" : "border-gray-400"
-                  }`}
+                  className={`w-5 h-5 border rounded mr-2 ${rememberMe ? "bg-primary-base" : "border-gray-400"}`}
                 />
                 <Text className="text-gray-600 text-sm font-general-medium">
                   Remember Me
@@ -167,8 +190,11 @@ export default function LoginScreen() {
               </Pressable>
             </View>
 
-            {/* Login Button */}
-            <GradientButton title="Login" onPress={handleSubmit(onSubmit)} />
+            <GradientButton
+              title={isSubmitting ? "Please wait..." : "Login"}
+              onPress={handleSubmit(onSubmit)}
+              disabled={isSubmitting}
+            />
           </View>
 
           {/* Google Sign In */}
@@ -176,7 +202,7 @@ export default function LoginScreen() {
             <Text className="text-center text-gray-500 mb-3 font-general">
               Or Sign In Using
             </Text>
-            <GoogleButton onToken={(t) => console.log(t)} />
+            <GoogleButton onToken={handleGoogle} />
           </View>
 
           {/* Sign Up */}

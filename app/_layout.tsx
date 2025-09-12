@@ -5,7 +5,13 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import '@/global.css'
+import "@/global.css";
+import { Provider } from "react-redux";
+import { store } from "@/store";
+import Toast from "react-native-toast-message";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { View, Text } from "react-native";
+import type { ToastConfig } from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,10 +34,54 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <ThemeProvider>
-      {/* Put StatusBar OUTSIDE the <Stack> */}
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false }} />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <ThemeProvider>
+          {/* Put StatusBar OUTSIDE the <Stack> */}
+          <StatusBar style="dark" />
+          <Stack screenOptions={{ headerShown: false }} />
+          <Toast config={toastConfig} />
+        </ThemeProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
+
+const Base = ({
+  text1,
+  text2,
+  bgClass = "bg-black/90",
+}: {
+  text1?: string;
+  text2?: string;
+  bgClass?: string;
+}) => (
+  <View className={`mx-4 mt-4 rounded-2xl px-4 py-3 ${bgClass}`}>
+    <Text
+      className="text-white font-[font-general] text-base"
+      numberOfLines={2}
+    >
+      {text1}
+    </Text>
+    {!!text2 && (
+      <Text
+        className="text-white/80 font-[font-general] text-xs mt-1"
+        numberOfLines={3}
+      >
+        {text2}
+      </Text>
+    )}
+  </View>
+);
+
+export const toastConfig: ToastConfig = {
+  success: ({ text1, text2 }) => (
+    <Base text1={text1} text2={text2} bgClass="bg-primary-base" />
+  ),
+  error: ({ text1, text2 }) => (
+    <Base text1={text1} text2={text2} bgClass="bg-red-600" />
+  ),
+  info: ({ text1, text2 }) => (
+    <Base text1={text1} text2={text2} bgClass="bg-black/90" />
+  ),
+};

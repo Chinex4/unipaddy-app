@@ -9,9 +9,16 @@ import ActivityItem from "@/components/home/ActivityItem";
 import { campusUpdates, quickActions, recentActivities } from "@/types/home";
 import { StatusBar } from "expo-status-bar";
 import { BlurView } from "expo-blur";
+import { getUser } from "@/storage/auth";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const [user, setUser] = useState<{ full_name?: string } | null>(null);
+
+  useEffect(() => {
+    getUser().then((u) => setUser(u as { full_name?: string }));
+  }, []);
 
   return (
     <ScrollView
@@ -23,7 +30,7 @@ export default function Home() {
       {/* Top Greeting & Avatars */}
       <HomeHeader
         greeting="Good Morning! 👋"
-        name="Confidence Izu"
+        name={user?.full_name || "User"}
         onBellPress={() => router.push("/notifications")}
         onAvatarPress={() => router.push("/settings")}
       />

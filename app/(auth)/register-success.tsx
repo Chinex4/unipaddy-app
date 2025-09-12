@@ -4,16 +4,16 @@ import { useRouter } from "expo-router";
 
 export default function RegisterSuccess() {
   const router = useRouter();
-  const toLogin = useCallback(() => router.replace("/(auth)/login"), [router]);
+  const toHome = useCallback(() => router.replace("/home"), [router]);
 
   return (
     <SuccessTemplate
       title="Account Created Successfully!"
-      subtitle="You can log in."
+      subtitle="Welcome to Unipaddy!!!"
       image={require("../../assets/images/unipaddy/password-change-success.png")}
-      primaryCtaLabel="Return to Login  "
-      onPrimaryPress={toLogin}
-      backTargetHref="/(auth)/login"
+      primaryCtaLabel="Continue "
+      onPrimaryPress={toHome}
+      backTargetHref="/home"
     />
   );
 }

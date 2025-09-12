@@ -22,6 +22,9 @@ import { StatusBar } from "expo-status-bar";
 import { BlurView } from "expo-blur";
 import GoogleButton from "@/components/auth/GoogleButton";
 
+import { useAppDispatch } from "@/store/hooks";
+import { register as registerThunk } from "@/redux/auth/auth.thunks";
+
 /** ---------- Faculty / Department Map ---------- */
 const FACULTY_MAP: Record<string, string[]> = {
   "FACULTY OF AGRICULTURE": [
@@ -165,6 +168,7 @@ const schema = yup.object({
     .required("Matriculation number is required"),
   faculty: yup.string().required("Faculty is required"),
   department: yup.string().required("Department is required"),
+  level: yup.string().required("Level is required"),
   password: passwordRules,
   confirmPassword: yup
     .string()
@@ -176,6 +180,7 @@ type FormData = yup.InferType<typeof schema>;
 
 export default function Register() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [showPwd, setShowPwd] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -193,6 +198,7 @@ export default function Register() {
       matNumber: "",
       faculty: "",
       department: "",
+      level: "",
       password: "",
       confirmPassword: "",
     },
@@ -220,6 +226,20 @@ export default function Register() {
   const faculties = Object.keys(FACULTY_MAP);
   const selectedFaculty = useWatch({ control, name: "faculty" }) || "";
   const departments = selectedFaculty ? FACULTY_MAP[selectedFaculty] : [];
+  const levels = [
+    "100 Level",
+    "200 Level",
+    "300 Level",
+    "400 Level",
+    "500 Level",
+    "600 Level",
+  ];
+  const selectedLevel = useWatch({ control, name: "level" }) || "";
+  const level = levels;
+
+  const onSelectLvl = (l: string) => {
+    setValue("level", l, { shouldValidate: true });
+  };
 
   const onSelectFaculty = (f: string) => {
     setValue("faculty", f, { shouldValidate: true });
@@ -232,24 +252,19 @@ export default function Register() {
   };
 
   const onSubmit = async (data: FormData) => {
-    // Simulate signup success: create a fake token + store user
-    const fakeToken = `tok_${Math.random().toString(36).slice(2)}${Date.now()}`;
-    const user = {
-      id: Date.now(),
-      name: data.fullName,
-      email: data.email,
-      matNumber: data.matNumber,
-      faculty: data.faculty,
-      department: data.department,
-    };
+    await dispatch(
+      registerThunk({
+        fullName: data.fullName,
+        email: data.email,
+        matNumber: data.matNumber,
+        faculty: data.faculty,
+        department: data.department,
+        level: data.level,
+        password: data.password,
+      })
+    ).unwrap();
 
-    await AsyncStorage.multiSet([
-      ["temp_signup_token", fakeToken],
-      ["temp_signup_user", JSON.stringify(user)],
-    ]);
-
-    // go to OTP with email param
-    // after saving to AsyncStorage
+    // Server sent OTP; move to OTP screen for `register`
     const emailParam = encodeURIComponent(data.email);
     router.push(`/(auth)/otp-verification?email=${emailParam}&type=register`);
   };
@@ -394,6 +409,19 @@ export default function Register() {
               options={departments}
               onSelect={onSelectDept}
               disabled={!selectedFaculty}
+            />
+            {errors.department && (
+              <Text className="text-red-500 text-xs font-general -mt-3 mb-2">
+                {errors.department.message}
+              </Text>
+            )}
+            {/* Level */}
+            <SelectModal
+              label="Level"
+              value={useWatch({ control, name: "level" }) || ""}
+              options={level}
+              onSelect={onSelectLvl}
+              // disabled={!selectedFaculty}
             />
             {errors.department && (
               <Text className="text-red-500 text-xs font-general -mt-3 mb-2">

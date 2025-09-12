@@ -4,9 +4,12 @@ import GradientHeader from "@/components/headers/GradientHeader";
 import SettingsRow from "@/components/settings/SettingsRow";
 import { useRouter } from "expo-router";
 import { Bell, Palette, LogOut, CircleUserRound, Info, MessageCircle } from "lucide-react-native";
+import { useAppDispatch } from "@/store/hooks";
+import { localLogout } from "@/redux/auth/auth.thunks";
 
 export default function SettingsIndex() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   return (
     <View className="flex-1 bg-white">
@@ -69,7 +72,7 @@ export default function SettingsIndex() {
             icon={<LogOut size={18} color="#EF4444" />}
             title="Logout"
             danger
-            onPress={() => router.replace("/(auth)/login")}
+            onPress={() => dispatch(localLogout())}
           />
         </View>
 
